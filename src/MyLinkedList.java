@@ -231,6 +231,20 @@ public class MyLinkedList<E> {
         return tmp.getT();
     }
 
+    public E getFirst() {
+        if (isEmpty()) {
+            return null;
+        }
+        return first.getT();
+    }
+
+    public E getLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        return last.getT();
+    }
+
     public E set(int index, E t) {
         Node<E> tmp = getByIndex(index);
         E oldT = tmp.getT();
