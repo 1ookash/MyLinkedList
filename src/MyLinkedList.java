@@ -127,6 +127,20 @@ public class MyLinkedList<E> {
         }
     }
 
+    public int indexOf(Object o) {
+        if (isEmpty()) {
+            return -1;
+        }
+        Node<E> tmp = first;
+        for (int i = 0; i < size(); i ++) {
+            if (o == tmp.getT()) {
+                return i;
+            }
+            tmp = tmp.getNext();
+        }
+        return -1;
+    }
+
     public boolean remove() {
         if (isEmpty()) {
             return true;
