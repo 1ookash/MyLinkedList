@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 public class MyLinkedList<E> {
 
     private Node<E> first;
@@ -141,54 +143,105 @@ public class MyLinkedList<E> {
         return -1;
     }
 
-    public boolean remove() {
+    public E remove() {
         if (isEmpty()) {
-            return true;
+            throw new NoSuchElementException();
         }
         if (size() == 1) {
+            E t = first.getT();
             first = null;
             last = null;
             previous = null;
             size --;
-            return true;
+            return t;
         }
         else {
             Node<E> tmp = first;
+            E t = tmp.getT();
             first = first.getNext();
             first.setPrevious(null);
             tmp = null;
             size --;
-            return true;
+            return t;
         }
     }
 
-    public boolean removeFirst() {
-        remove();
-        return true;
-    }
-
-    public boolean removeLast() {
+    public E poll() {
         if (isEmpty()) {
-            return true;
+            return null;
         }
         if (size() == 1) {
+            E t = first.getT();
+            first = null;
+            last = null;
+            previous = null;
+            size --;
+            return t;
+        }
+        else {
+            Node<E> tmp = first;
+            E t = tmp.getT();
+            first = first.getNext();
+            first.setPrevious(null);
+            tmp = null;
+            size --;
+            return t;
+        }
+    }
+
+    public E pollFirst() {
+        return poll();
+    }
+
+    public E removeFirst() {
+        return remove();
+    }
+
+    public E removeLast() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        if (size() == 1) {
+            E t = first.getT();
             removeFirst();
-            return true;
+            return t;
         }
         else {
             Node<E> tmp = last;
+            E t = last.getT();
             last = previous;
             previous = previous.getPrevious();
             last.setNext(null);
             tmp = null;
             size --;
-            return true;
+            return t;
+        }
+    }
+
+    public E pollLast() {
+        if (isEmpty()) {
+            return null;
+        }
+        if (size() == 1) {
+            E t = first.getT();
+            removeFirst();
+            return t;
+        }
+        else {
+            Node<E> tmp = last;
+            E t = last.getT();
+            last = previous;
+            previous = previous.getPrevious();
+            last.setNext(null);
+            tmp = null;
+            size --;
+            return t;
         }
     }
 
     public boolean remove(Object o) {
         if (isEmpty()) {
-            return true;
+            throw new NoSuchElementException();
         }
         if (first.getT() == o) {
             removeFirst();
@@ -210,12 +263,12 @@ public class MyLinkedList<E> {
             }
             tmp = tmp.getNext();
         }
-        return false;
+        throw new NoSuchElementException();
     }
 
     public boolean remove(int index) {
         if (isEmpty() || index < 0 || index >= size()) {
-            return true;
+            throw new NoSuchElementException();
         }
         if (index == 1) {
             removeFirst();
@@ -239,13 +292,20 @@ public class MyLinkedList<E> {
 
     public E get(int index) {
         if(isEmpty() || index < 0 || index >= size) {
-            return null;
+            throw new NoSuchElementException();
         }
         Node<E> tmp = getByIndex(index);
         return tmp.getT();
     }
 
     public E getFirst() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return first.getT();
+    }
+
+    public E peekFirst() {
         if (isEmpty()) {
             return null;
         }
@@ -254,9 +314,26 @@ public class MyLinkedList<E> {
 
     public E getLast() {
         if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return last.getT();
+    }
+
+    public E peekLast() {
+        if (isEmpty()) {
             return null;
         }
         return last.getT();
+    }
+
+    public void clear() {
+        Node<E> tmp;
+        Node<E> it = first;
+        while (it != null) {
+            tmp = it;
+            it = it.getNext();
+            tmp = null;
+        }
     }
 
     public E set(int index, E t) {
